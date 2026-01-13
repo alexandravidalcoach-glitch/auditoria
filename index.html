@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Auditoría</title>
+    <title>Dashboard Auditoría Alexandra</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -13,131 +12,56 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // --- AQUÍ EMPIEZA TU CODIGO EXACTO ---
-        const { useState, useEffect, useMemo } = React;
+        const { useState } = React;
 
         const App = () => {
-            const [user, setUser] = useState({ loggedIn: true }); // Simulación de auth para que cargue
-            const [allAudits, setAllAudits] = useState([]);
-            const [loading, setLoading] = useState(false);
-            const [message, setMessage] = useState(null);
-            const [accessCode, setAccessCode] = useState("");
-            const [filterStartDate, setFilterStartDate] = useState("");
-            const [filterEndDate, setFilterEndDate] = useState("");
-            const [showModal, setShowModal] = useState(false);
-            const [modalContent, setModalContent] = useState(null);
-
-            const today = new Date().toISOString().split('T')[0];
-
-            const initialFormState = {
-                nombreTrader: 'Alexandra', 
-                fechaAuditoria: today,
-                horaInicioSesion: '09:00',
-                energiaMetabolica: 7,
-                ritualCoherencia: 'No',
-                revisadoPlan: 'No', 
-                estadoSistemaNervioso: '🟢 Vagal Ventral (Calma Activa)',
+            const [formData, setFormData] = useState({
+                nombreTrader: 'Alexandra',
                 indiceCoherenciaIC: 90,
-                sesgosNeuroCognitivos: [],
-                marcadoresSomaticos: [],
-                nivelPresencia: 9,
-                respetoStopTP: 10,
-                dejoCorrerPlan: 10,
-                numEntradasTotales: 0,
-                pnlDia: 0,
-                numEntradasPlan: 0,
-                numEntradasFueraPlan: 0,
-                numPerdidasHoy: 0,
-                emocionesPorPerdida: {}, 
-                tiposPorPerdida: {},
-                sensacionCorporalPerdida: '',
-                estadoSistemaNerviosoFinal: '',
-                sensacionCorporal: '',
-                detallesSesion: '',
-                emocionesDetectadas: [], 
-                objetivoReal: 'Aprender/Proceso',
-                nivelCoherencia: 5,
-                pnlEmocional: 'He ganado disciplina',
-                anclajeIdentidad: 7,
-                creenciasInstaladas: [],
-                reescrituraNarrativa: '',
-                visualizacionesCierre: [],
-                aprendizajeMentor: '',
-                protocoloReactivacionVagal: '',
-                compromisoManana: ''
-            };
-
-            const [formData, setFormData] = useState(initialFormState);
-
-            // Títulos y estilos idénticos a tu código
-            const SectionTitle = ({ number, title }) => (
-                <div className="bg-slate-900 p-5 text-white flex items-center gap-4 border-b border-indigo-500/30">
-                    <span className="bg-indigo-600 text-[11px] w-7 h-7 flex items-center justify-center rounded-full font-black shadow-lg shadow-indigo-500/20">{number}</span>
-                    <h2 className="text-sm font-black uppercase tracking-[0.15em]">{title}</h2>
-                </div>
-            );
-
-            // Lógica de cambio de inputs idéntica
-            const handleInputChange = (e) => {
-                const { name, value, type, checked } = e.target;
-                if (type === 'checkbox') {
-                    const list = formData[name] || [];
-                    setFormData(prev => ({
-                        ...prev,
-                        [name]: checked ? [...list, value] : list.filter(i => i !== value)
-                    }));
-                } else {
-                    setFormData(prev => ({ ...prev, [name]: value }));
-                }
-            };
+                energiaMetabolica: 7,
+                estadoSistemaNervioso: '🟢 Vagal Ventral (Calma Activa)'
+            });
 
             return (
-                <div className="min-h-screen bg-[#f8fafc] p-4 md:p-8 text-slate-800 font-sans">
-                    <div className="max-w-6xl mx-auto">
-                        <header className="mb-12 text-center">
-                            <h1 className="text-5xl font-black text-slate-900 tracking-tighter uppercase mb-3 italic">Auditoría Neuro-Biología Trading</h1>
-                            <div className="h-1.5 w-24 bg-indigo-600 mx-auto rounded-full mb-4"></div>
-                            <p className="text-slate-500 font-bold italic text-sm">HIPNOTRADING - Supervisión de Coherencia y Sistema Nervioso</p>
+                <div className="min-h-screen bg-[#f8fafc] p-8 text-slate-800 font-sans">
+                    <div className="max-w-4xl mx-auto">
+                        <header className="mb-10 text-center">
+                            <h1 className="text-4xl font-black text-slate-900 uppercase italic tracking-tighter">
+                                Auditoría Neuro-Biología
+                            </h1>
+                            <p className="text-indigo-600 font-bold text-[10px] tracking-[0.3em] uppercase mt-2">
+                                Hipnotrading System
+                            </p>
                         </header>
 
-                        <div className="space-y-10">
-                            <section className="bg-white rounded-[2rem] shadow-xl border border-slate-200 p-8 border-l-[16px] border-l-indigo-600">
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                                    <div className="lg:col-span-2 space-y-6">
-                                        <div>
-                                            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 italic">Nombre del Trader</label>
-                                            <input type="text" name="nombreTrader" value={formData.nombreTrader} onChange={handleInputChange} className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xl font-black text-indigo-700 outline-none focus:border-indigo-500 transition-all" />
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <input type="date" name="fechaAuditoria" value={formData.fechaAuditoria} onChange={handleInputChange} className="p-4 bg-indigo-50/50 border-2 border-indigo-100 rounded-2xl font-bold" />
-                                            <input type="time" name="horaInicioSesion" value={formData.horaInicioSesion} onChange={handleInputChange} className="p-4 bg-indigo-50/50 border-2 border-indigo-100 rounded-2xl font-bold" />
-                                        </div>
+                        <div className="bg-white rounded-[2rem] shadow-xl border border-slate-200 overflow-hidden">
+                            <div className="bg-slate-900 p-5 text-white flex items-center gap-4">
+                                <span className="bg-indigo-600 w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black">1</span>
+                                <h2 className="text-xs font-black uppercase tracking-widest">Fase Pre-Mercado</h2>
+                            </div>
+                            
+                            <div className="p-8 space-y-8">
+                                <div className="grid grid-cols-2 gap-8">
+                                    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 text-center">
+                                        <p className="text-[10px] font-black uppercase text-slate-400 mb-2">IC %</p>
+                                        <p className="text-5xl font-black text-indigo-600">{formData.indiceCoherenciaIC}%</p>
                                     </div>
-                                    <div className="bg-indigo-900 p-6 rounded-3xl text-white flex flex-col justify-center">
-                                        <label className="block text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-3 italic">Código de Acceso</label>
-                                        <input type="password" placeholder="****" className="w-full p-4 bg-indigo-800/50 border-2 border-indigo-700 rounded-2xl text-center font-bold outline-none" />
+                                    <div className="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 flex items-center justify-center">
+                                        <p className="text-xs font-black uppercase text-indigo-900 text-center leading-tight">
+                                            {formData.estadoSistemaNervioso}
+                                        </p>
                                     </div>
                                 </div>
-                            </section>
 
-                            <section className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-                                <SectionTitle number="1" title="Fase Pre-Mercado (Check Neurobiológico)" />
-                                <div className="p-8 space-y-8">
-                                    <label className="block text-sm font-black text-slate-700 uppercase">1.1 Nivel de Energía Metabólica ({formData.energiaMetabolica})</label>
-                                    <input type="range" min="1" max="10" name="energiaMetabolica" value={formData.energiaMetabolica} onChange={handleInputChange} className="w-full h-2 bg-slate-200 rounded-lg accent-indigo-600 appearance-none cursor-pointer" />
-                                    
-                                    <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 text-center">
-                                            <label className="block text-[10px] font-black uppercase text-slate-400 mb-2">1.4 IC %</label>
-                                            <div className="text-5xl font-black text-emerald-600">{formData.indiceCoherenciaIC}%</div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="block text-[10px] font-black uppercase text-slate-400 mb-2">Estado del SN</label>
-                                            <div className="p-4 border-2 border-indigo-600 bg-indigo-50 rounded-2xl font-bold text-xs uppercase italic">{formData.estadoSistemaNervioso}</div>
-                                        </div>
-                                    </div>
+                                <div className="space-y-4">
+                                    <label className="block text-[10px] font-black uppercase text-slate-400 italic">Energía Metabólica</label>
+                                    <input type="range" className="w-full h-2 bg-slate-200 rounded-lg accent-indigo-600 appearance-none cursor-pointer" />
                                 </div>
-                            </section>
+
+                                <button className="w-full bg-slate-900 text-white py-6 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-indigo-700 transition-all">
+                                    Registrar Sesión
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
